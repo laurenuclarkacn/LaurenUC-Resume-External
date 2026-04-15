@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lauren Urena-Clark | Security Consultant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cyan: #00f5ff;
+      --purple: #a100ff;
+      --teal: #00c9a7;
+      --dark: #020813;
+      --card-bg: rgba(255,255,255,0.04);
+      --border: rgba(0,245,255,0.2);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: #cdd6f4;
+      overflow-x: hidden;
+    }
+
+    /* CANVAS */
+    #particles-canvas {
+      position: fixed; top:0; left:0;
+      width:100%; height:100%;
+      z-index: 0; pointer-events: none;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top:0; left:0; width:100%;
+      z-index: 100;
+      display: flex; align-items:center; justify-content:space-between;
+      padding: 14px 6%;
+      background: rgba(2,8,19,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem; font-weight:700;
+      color: var(--cyan);
+      letter-spacing: 2px;
+      text-shadow: 0 0 12px var(--cyan);
+    }
+    nav ul { list-style:none; display:flex; gap:22px; flex-wrap:wrap; }
+    nav ul a {
+      text-decoration:none; color:#cdd6f4;
+      font-size:0.8rem; font-weight:500;
+      letter-spacing:1px; text-transform:uppercase;
+      transition: color .3s;
+      position: relative;
+    }
+    nav ul a::after {
+      content:''; position:absolute; bottom:-4px; left:0;
+      width:0; height:2px;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      transition: width .3s;
+    }
+    nav ul a:hover { color:var(--cyan); }
+    nav ul a:hover::after { width:100%; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      text-align:center;
+      position: relative; z-index:1;
+      padding: 120px 6% 60px;
+    }
+    .hero-tag {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem; letter-spacing:4px;
+      color: var(--teal); text-transform:uppercase;
+      margin-bottom: 18px;
+      border: 1px solid rgba(0,201,167,0.3);
+      padding: 5px 16px; border-radius:20px;
+      display:inline-block;
+    }
+    .hero-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight:900;
+      color:#fff;
+      text-shadow: 0 0 30px rgba(0,245,255,0.5), 0 0 60px rgba(0,245,255,0.2);
+      line-height:1.1;
+      animation: glowPulse 3s ease-in-out infinite alternate;
+    }
+    @keyframes glowPulse {
+      from { text-shadow: 0 0 20px rgba(0,245,255,0.4), 0 0 40px rgba(0,245,255,0.15); }
+      to   { text-shadow: 0 0 40px rgba(0,245,255,0.7), 0 0 80px rgba(0,245,255,0.3); }
+    }
+    .hero-divider {
+      width:120px; height:3px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+      margin: 22px auto;
+      box-shadow: 0 0 14px var(--cyan);
+      border-radius:2px;
+    }
+    .typing-wrapper {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      font-weight: 300; color: var(--cyan);
+      letter-spacing:2px; min-height:2rem;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .cursor {
+      display:inline-block; width:3px; height:1.2em;
+      background: var(--cyan); margin-left:4px;
+      vertical-align:middle;
+      animation: blink .7s step-end infinite;
+    }
+    @keyframes blink { 50%{opacity:0} }
+    .hero-btns { display:flex; gap:16px; margin-top:36px; flex-wrap:wrap; justify-content:center; }
+    .btn-outline {
+      padding: 12px 32px;
+      border: 2px solid var(--cyan);
+      color: var(--cyan); background:transparent;
+      font-family:'Orbitron',sans-serif; font-size:0.75rem;
+      letter-spacing:2px; text-transform:uppercase;
+      cursor:pointer; border-radius:4px;
+      transition: all .3s;
+      text-decoration:none;
+      box-shadow: 0 0 12px rgba(0,245,255,0.2);
+    }
+    .btn-outline:hover {
+      background: rgba(0,245,255,0.1);
+      box-shadow: 0 0 24px rgba(0,245,255,0.5);
+      transform: translateY(-2px);
+    }
+    #hero::before {
+      content:''; position:absolute; inset:0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,245,255,0.015) 2px, rgba(0,245,255,0.015) 4px);
+      pointer-events:none; z-index:0;
+    }
+
+    /* SECTIONS */
+    section { position:relative; z-index:1; padding: 90px 6%; }
+    .section-label {
+      font-family:'Orbitron',sans-serif;
+      font-size:0.65rem; letter-spacing:5px;
+      color: var(--teal); text-transform:uppercase;
+      margin-bottom:10px;
+    }
+    .section-title {
+      font-family:'Orbitron',sans-serif;
+      font-size: clamp(1.6rem,3vw,2.4rem);
+      font-weight:700; color:#fff;
+      margin-bottom: 40px;
+      position:relative; display:inline-block;
+    }
+    .section-title::after {
+      content:''; position:absolute; bottom:-10px; left:0;
+      width:60%; height:3px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      border-radius:2px; box-shadow: 0 0 10px var(--cyan);
+    }
+
+    /* ABOUT */
+    .about-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius:12px;
+      padding: 36px 40px;
+      max-width:860px;
+      backdrop-filter:blur(8px);
+      line-height:1.85;
+      font-size:1rem;
+      color:#b0bcd4;
+      box-shadow: 0 0 40px rgba(0,245,255,0.05);
+      transition: box-shadow .4s;
+    }
+    .about-card:hover { box-shadow: 0 0 60px rgba(0,245,255,0.12); }
+
+    /* SKILLS */
+    .skills-grid { display:flex; flex-wrap:wrap; gap:14px; max-width:900px; }
+    .skill-tag {
+      padding: 10px 20px;
+      border: 1px solid rgba(0,245,255,0.3);
+      border-radius:30px;
+      font-size:0.82rem; font-weight:500;
+      color: #cdd6f4;
+      background: rgba(0,245,255,0.04);
+      cursor:default;
+      transition: all .3s;
+      position:relative; overflow:hidden;
+    }
+    .skill-tag.priority {
+      border-color: rgba(161,0,255,0.5);
+      background: rgba(161,0,255,0.06);
+    }
+    .skill-tag::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(circle at center, rgba(0,245,255,0.15), transparent 70%);
+      opacity:0; transition: opacity .3s;
+    }
+    .skill-tag:hover {
+      border-color: var(--cyan); color:#fff;
+      box-shadow: 0 0 18px rgba(0,245,255,0.35), inset 0 0 10px rgba(0,245,255,0.08);
+      transform: translateY(-3px);
+    }
+    .skill-tag.priority:hover { border-color: var(--purple); box-shadow: 0 0 18px rgba(161,0,255,0.45); }
+    .skill-tag:hover::before { opacity:1; }
+
+    /* QUICK STATS */
+    #stats { background: rgba(0,245,255,0.01); }
+    .stats-wrapper {
+      display:flex; flex-wrap:wrap; gap:40px;
+      align-items:flex-start; justify-content:center;
+      max-width:700px; margin:0 auto;
+    }
+    .stat-block { display:flex; flex-direction:column; align-items:center; gap:16px; }
+    .stat-label-top {
+      font-family:'Orbitron',sans-serif;
+      font-size:0.7rem; letter-spacing:3px;
+      color:var(--teal); text-transform:uppercase;
+    }
+    /* Donut / circle charts via SVG */
+    .donut-wrap { position:relative; width:160px; height:160px; }
+    .donut-wrap svg { width:100%; height:100%; transform: rotate(-90deg); }
+    .donut-bg { fill:none; stroke:rgba(255,255,255,0.07); stroke-width:14; }
+    .donut-fill { fill:none; stroke-width:14; stroke-linecap:round;
+      transition: stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1); }
+    .donut-center {
+      position:absolute; inset:0;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      font-family:'Orbitron',sans-serif;
+    }
+    .donut-number { font-size:1.6rem; font-weight:900; color:#fff; }
+    .donut-sub { font-size:0.6rem; letter-spacing:2px; color:var(--teal); margin-top:2px; }
+    .stat-available {
+      text-align:center; margin-top:24px;
+      font-size:0.78rem; color:rgba(0,245,255,0.6);
+      letter-spacing:1.5px; font-style:italic;
+    }
+    .stat-available span { color:var(--cyan); margin-right:5px; }
+
+    /* EXPERIENCE */
+    .timeline { position:relative; max-width:820px; }
+    .timeline::before {
+      content:''; position:absolute; left:22px; top:0; bottom:0;
+      width:2px;
+      background: linear-gradient(to bottom, var(--cyan), var(--purple), transparent);
+      box-shadow: 0 0 10px var(--cyan);
+    }
+    .tl-card {
+      margin-left:60px; margin-bottom:30px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--cyan);
+      border-radius:8px;
+      padding:24px 28px;
+      cursor:pointer;
+      transition: all .35s;
+      position:relative;
+      box-shadow: -4px 0 18px rgba(0,245,255,0.08);
+    }
+    .tl-card:hover {
+      border-left-color: var(--purple);
+      box-shadow: -4px 0 30px rgba(161,0,255,0.2), 0 8px 30px rgba(0,0,0,0.3);
+      transform: translateX(4px);
+    }
+    .tl-dot {
+      position:absolute; left:-49px; top:26px;
+      width:16px; height:16px; border-radius:50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan), 0 0 24px rgba(0,245,255,0.4);
+      border:2px solid var(--dark);
+    }
+    .tl-role {
+      font-family:'Orbitron',sans-serif;
+      font-size:0.95rem; font-weight:700; color:#fff;
+      margin-bottom:4px;
+    }
+    .tl-company {
+      font-size:0.78rem; color:var(--teal);
+      letter-spacing:1px; text-transform:uppercase;
+      margin-bottom:10px;
+    }
+    .tl-toggle {
+      font-size:0.75rem; color:var(--cyan);
+      letter-spacing:1px;
+      display:flex; align-items:center; gap:6px;
+    }
+    .tl-toggle .arrow { transition: transform .3s; display:inline-block; }
+    .tl-card.open .arrow { transform: rotate(90deg); }
+    .tl-bullets { max-height:0; overflow:hidden; transition: max-height .5s ease, padding-top .3s; }
+    .tl-card.open .tl-bullets { max-height:700px; padding-top:14px; }
+    .tl-bullets ul { list-style:none; padding:0; }
+    .tl-bullets ul li {
+      padding: 6px 0 6px 18px;
+      position:relative; font-size:0.88rem;
+      color:#b0bcd4; line-height:1.6;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .tl-bullets ul li::before { content:'▸'; position:absolute; left:0; color:var(--cyan); font-size:0.8rem; }
+
+    /* CERTIFICATIONS */
+    .cert-grid { display:flex; gap:24px; flex-wrap:wrap; }
+    .cert-card {
+      flex:1; min-width:220px; max-width:320px;
+      background: var(--card-bg);
+      border:1px solid rgba(161,0,255,0.3);
+      border-radius:12px;
+      padding:28px 24px;
+      text-align:center;
+      transition: all .35s;
+      position:relative; overflow:hidden;
+    }
+    .cert-card::before {
+      content:''; position:absolute;
+      top:-50%; left:-50%; width:200%; height:200%;
+      background: conic-gradient(transparent 0deg, rgba(161,0,255,0.08) 60deg, transparent 120deg);
+      animation: rotateCert 6s linear infinite;
+    }
+    @keyframes rotateCert { to{transform:rotate(360deg)} }
+    .cert-card:hover { border-color:var(--purple); transform:translateY(-6px); box-shadow:0 10px 40px rgba(161,0,255,0.25); }
+    .cert-icon { font-size:2.6rem; margin-bottom:14px; display:block; position:relative; z-index:1; }
+    .cert-name { font-family:'Orbitron',sans-serif; font-size:0.85rem; font-weight:700; color:#fff; margin-bottom:6px; position:relative; z-index:1; }
+    .cert-issuer { font-size:0.75rem; color:var(--teal); letter-spacing:1px; text-transform:uppercase; position:relative; z-index:1; }
+
+    /* CONTACT */
+    .contact-grid { display:flex; flex-wrap:wrap; gap:20px; max-width:800px; }
+    .contact-item {
+      display:flex; align-items:center; gap:14px;
+      background: var(--card-bg);
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:18px 24px; flex:1; min-width:240px;
+      transition: all .3s;
+    }
+    .contact-item:hover { border-color:var(--cyan); box-shadow:0 0 20px rgba(0,245,255,0.15); transform:translateY(-3px); }
+    .contact-icon { font-size:1.4rem; }
+    .contact-text { font-size:0.88rem; color:#b0bcd4; line-height:1.5; }
+    .contact-label { font-size:0.68rem; text-transform:uppercase; letter-spacing:2px; color:var(--teal); }
+
+    /* FOOTER */
+    footer {
+      text-align:center; padding:28px 6%;
+      border-top:1px solid var(--border);
+      color:rgba(255,255,255,0.25);
+      font-size:0.78rem; letter-spacing:1px;
+      position:relative; z-index:1;
+    }
+
+    /* REVEAL */
+    .reveal { opacity:0; transform:translateY(40px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* RESPONSIVE */
+    @media(max-width:700px){
+      nav ul { gap:12px; }
+      nav ul a { font-size:0.68rem; }
+      section { padding:70px 5%; }
+      .about-card { padding:24px 22px; }
+      .cert-card { max-width:100%; }
+      .tl-card { margin-left:44px; }
+      .timeline::before { left:16px; }
+      .stats-wrapper { gap:28px; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">&lt;LUC/&gt;</div>
+  <ul>
+    <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-tag">&#128272; Security &amp; Cloud Specialist</div>
+  <h1 class="hero-name">Lauren Urena-Clark</h1>
+  <div class="hero-divider"></div>
+  <div class="typing-wrapper">
+    <span id="typed-text"></span><span class="cursor"></span>
+  </div>
+  <div class="hero-btns">
+    <a href="#experience" class="btn-outline">View Experience</a>
+    <a href="#contact" class="btn-outline" style="border-color:var(--purple);color:var(--purple);">Contact Me</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="reveal">
+    <p class="section-label">// background</p>
+    <h2 class="section-title">About Me</h2>
+    <div class="about-card">Lauren is a cybersecurity professional with over five years of experience working across cloud security, risk, and compliance, including third-party risk management and security program delivery. Her background includes policy enforcement, security assessments, and leading cross-functional initiatives in complex environments.
+<br><br>
+She naturally operates at the intersection of business and technology, serving as a bridge between technical teams and business stakeholders. With a strong interest in project and program management, Lauren focuses on translating complex technical and regulatory requirements into clear, actionable work that drives alignment, progress, and measurable outcomes.</div>
+  </div>
+</section>
+
+
+
+<!-- SKILLS -->
+<section id="skills" style="background:rgba(0,245,255,0.015);">
+  <div class="reveal">
+    <p class="section-label">// expertise</p>
+    <h2 class="section-title">Key Skills &amp; Focus Areas</h2>
+    <div class="skills-grid">
+      <!-- Priority skills first -->
+      <div class="skill-tag priority">&#128203; Project Management</div>
+      <div class="skill-tag priority">&#128101; Third Party Risk Management (TPRM)</div>
+      <div class="skill-tag priority">&#9878;&#65039; Governance, Risk &amp; Compliance (GRC)</div>
+      <div class="skill-tag priority">&#10003; Compliance Support &amp; Process Clarity</div>
+      <div class="skill-tag priority">&#129309; Cross-Functional Collaboration</div>
+      <!-- Remaining skills -->
+      <div class="skill-tag">&#9729;&#65039; Cloud Security Remediation (GCP)</div>
+      <div class="skill-tag">&#128274; Organization Policy Management</div>
+      <div class="skill-tag">&#129514; Identity &amp; Access Management (IAM)</div>
+      <div class="skill-tag">&#9888;&#65039; Security Risk &amp; Compliance</div>
+      <div class="skill-tag">&#128275; External Exposure &amp; Access Risk Reduction</div>
+      <div class="skill-tag">&#128737;&#65039; Policy Enforcement &amp; IAM Guardrails</div>
+      <div class="skill-tag">&#128196; Technical Documentation</div>
+      <div class="skill-tag">&#128202; Leadership in Security-Focused Initiatives</div>
+      <div class="skill-tag">&#128269; Attention to Detail</div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="reveal">
+    <p class="section-label">// career journey</p>
+    <h2 class="section-title">Experience</h2>
+    <div class="timeline">
+
+      <!-- Role 1: TPRM Manager -->
+      <div class="tl-card" onclick="toggleCard(this)">
+        <div class="tl-dot"></div>
+        <div class="tl-role">Third Party Risk Management Manager</div>
+        <div class="tl-company">Google Cloud Platform Client &middot; </div>
+        <div class="tl-toggle"><span class="arrow">&#9658;</span> Click to expand</div>
+        <div class="tl-bullets">
+          <ul>
+            <li>Owned end-to-end third-party notifications for subcontractor and subprocessor changes, including hosting center, regional, and service activity updates.</li>
+            <li>Delivered DORA-aligned notifications with 180-day advance notice and supported public-facing disclosures.</li>
+            <li>Coordinated cross-functionally to validate and publish mandatory service announcements.</li>
+            <li>Prepared executive-level status reports and monthly business review materials summarizing notification activity, risks, and upcoming changes.</li>
+            <li>Trained and managed a direct report and supported ad hoc vendor risk initiatives, including CVE outreach and remediation tracking.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Role 2: Cloud Controls Specialist -->
+      <div class="tl-card" onclick="toggleCard(this)">
+        <div class="tl-dot"></div>
+        <div class="tl-role">Cloud Controls Specialist</div>
+        <div class="tl-company">Google Cloud Platform Client &middot; </div>
+        <div class="tl-toggle"><span class="arrow">&#9658;</span> Click to expand</div>
+        <div class="tl-bullets">
+          <ul>
+            <li>Contributed to an initiative aimed at rebuilding customer trust post-cyber incident by developing and enhancing customer-facing documentation.</li>
+            <li>Scheduled and facilitated interviews with SMEs to gather in-depth insights on key security topics and identify potential gaps.</li>
+            <li>Led review sessions with SMEs, incorporated feedback, and refined drafts to ensure clarity, accuracy, and relevance.</li>
+            <li>Tracked multiple workstreams using a RAID log to monitor risks, actions, issues, and decisions.</li>
+            <li>Maintained and updated the weekly status deck, providing project updates and highlighting key risks.</li>
+            <li>Authored 10 tailored whitepapers aligned with individual team needs and customer concerns.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Role 3: Technical Project Manager -->
+      <div class="tl-card" onclick="toggleCard(this)">
+        <div class="tl-dot"></div>
+        <div class="tl-role">Technical Project Manager</div>
+        <div class="tl-company">Financial Services Client &middot; </div>
+        <div class="tl-toggle"><span class="arrow">&#9658;</span> Click to expand</div>
+        <div class="tl-bullets">
+          <ul>
+            <li>Led the development of AWS standards documentation, ensuring alignment with industry best practices and security recommendations.</li>
+            <li>Assisted in drafting technical standards requirements to enhance the quality of documentation.</li>
+            <li>Identified and engaged relevant stakeholders, facilitating information gathering and scope definition.</li>
+            <li>Proactively identified and escalated project risks or blockers to ensure project milestones were met.</li>
+            <li>Established and maintained a tracking system for deliverables, ensuring progress visibility and accountability.</li>
+            <li>Managed the relationship between internal technical resources and client teams, acting as the primary liaison.</li>
+            <li>Organized and led recurring check-in meetings, documented key action items, and communicated status updates.</li>
+            <li>Successfully delivered all 10 technical standards documents to the client, meeting project goals and expectations.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Role 4: Technology Architect Project Manager -->
+      <div class="tl-card" onclick="toggleCard(this)">
+        <div class="tl-dot"></div>
+        <div class="tl-role">Technology Architect Project Manager</div>
+        <div class="tl-company">Large Energy Organization &middot; </div>
+        <div class="tl-toggle"><span class="arrow">&#9658;</span> Click to expand</div>
+        <div class="tl-bullets">
+          <ul>
+            <li>Led production readiness for a greenfield build of IAM, PKI, DNS, NIX, and Active Directory environments.</li>
+            <li>Managed and coordinated a 3-member offshore delivery team, ensuring high-quality outputs and on-time execution.</li>
+            <li>Streamlined onboarding for team members through Fieldglass, including access provisioning and laptop coordination.</li>
+            <li>Partnered with stakeholders to gather requirements and translate business needs into technical implementation plans.</li>
+            <li>Delivered regular client status updates, proactively addressing risks, questions, and dependencies.</li>
+            <li>Facilitated alignment between internal testing teams and client stakeholders to drive issue resolution and progress.</li>
+            <li>Escalated blockers and risks to leadership early to prevent delivery delays.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Role 5: Security DevOps Engineer -->
+      <div class="tl-card" onclick="toggleCard(this)">
+        <div class="tl-dot"></div>
+        <div class="tl-role">Security DevOps Engineer</div>
+        <div class="tl-company">Google Cloud Platform Client &middot; </div>
+        <div class="tl-toggle"><span class="arrow">&#9658;</span> Click to expand</div>
+        <div class="tl-bullets">
+          <ul>
+            <li>Resolved tickets on cloud security, IAM guardrails, policy constraints, project organization, and configuration files.</li>
+            <li>SME in cloud security remediation, guiding users to mitigate risks by reconfiguring projects.</li>
+            <li>Helped bring 87,000 projects into compliance, reducing external exposure.</li>
+            <li>SME in organizational policy enforcement &mdash; implemented policies that effectively limited resource usage and reduced external exposure.</li>
+            <li>Identified workflow gaps and improved user-facing documents with client collaboration.</li>
+            <li>Managed ticket queue and addressed high-priority issues promptly.</li>
+            <li>Analyzed data to narrate the impact of our work and presented findings effectively during Quarterly Business Reviews.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications" style="background:rgba(161,0,255,0.02);">
+  <div class="reveal">
+    <p class="section-label">// credentials</p>
+    <h2 class="section-title">Certifications</h2>
+    <div class="cert-grid">
+      <div class="cert-card">
+        <span class="cert-icon">&#129302;</span>
+        <div class="cert-name">AI Product Manager</div>
+        <div class="cert-issuer">Udacity</div>
+      </div>
+      <div class="cert-card">
+        <span class="cert-icon">&#9889;</span>
+        <div class="cert-name">Agentic AI Fluency</div>
+        <div class="cert-issuer">Udacity</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <p class="section-label">// get in touch</p>
+    <h2 class="section-title">Contact</h2>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <span class="contact-icon">&#128205;</span>
+        <div class="contact-text">
+          <div class="contact-label">Location</div>
+          395 9th Ave, New York, NY 10001
+        </div>
+      </div>
+      <div class="contact-item">
+        <span class="contact-icon">&#9993;&#65039;</span>
+        <div class="contact-text">
+          <div class="contact-label">Email</div>
+          lauren.urena-clark@accenture.com
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  &copy; 2026 Lauren Urena-Clark &nbsp;&middot;&nbsp; Security Consultant  &nbsp;&middot;&nbsp;  Cloud Security Practice
+</footer>
+
+<script>
+  // Particle Network
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let pts = [];
+  const COUNT = 80;
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  function rand(a,b){ return Math.random()*(b-a)+a; }
+  for(let i=0;i<COUNT;i++){
+    pts.push({ x:rand(0,window.innerWidth), y:rand(0,window.innerHeight), vx:rand(-0.4,0.4), vy:rand(-0.4,0.4), r:rand(1.5,3) });
+  }
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(let i=0;i<pts.length;i++){
+      let p=pts[i]; p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>canvas.width) p.vx*=-1;
+      if(p.y<0||p.y>canvas.height) p.vy*=-1;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(0,245,255,0.55)'; ctx.fill();
+      for(let j=i+1;j<pts.length;j++){
+        let q=pts[j], dx=p.x-q.x, dy=p.y-q.y, dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<120){
+          ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y);
+          ctx.strokeStyle=`rgba(0,245,255,${0.15*(1-dist/120)})`; ctx.lineWidth=0.6; ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  // Typing Effect — only 2 titles
+  const titles = ['Security Consultant ', 'GRC Enthusiast'];
+  let ti=0, ci=0, deleting=false;
+  const el = document.getElementById('typed-text');
+  function type(){
+    let cur=titles[ti];
+    if(!deleting){ el.textContent=cur.slice(0,++ci); if(ci===cur.length){deleting=true;setTimeout(type,1800);return;} }
+    else { el.textContent=cur.slice(0,--ci); if(ci===0){deleting=false;ti=(ti+1)%titles.length;} }
+    setTimeout(type,deleting?55:80);
+  }
+  type();
+
+  // Timeline Toggle
+  function toggleCard(card){
+    card.classList.toggle('open');
+    let toggle=card.querySelector('.tl-toggle');
+    toggle.innerHTML=card.classList.contains('open')
+      ? '<span class="arrow" style="transform:rotate(90deg)">&#9658;</span> Click to collapse'
+      : '<span class="arrow">&#9658;</span> Click to expand';
+  }
+
+  // Scroll Reveal
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); } });
+  },{ threshold:0.12 });
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+  // Animate chargeability donut to 70% on scroll
+  const circumference = 2 * Math.PI * 66; // 414.69
+  const chargeCircle = document.getElementById('charge-circle');
+  const chargeObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const pct = 0.70;
+        const offset = circumference * (1 - pct);
+        chargeCircle.style.transition = 'stroke-dashoffset 1.6s cubic-bezier(0.4,0,0.2,1)';
+        chargeCircle.style.strokeDashoffset = offset;
+        chargeObserver.unobserve(e.target);
+      }
+    });
+  },{ threshold:0.3 });
+  chargeObserver.observe(document.getElementById('stats'));
+</script>
+</body>
+</html>
